@@ -1,0 +1,254 @@
+---
+import type { Form as Props } from '~/types';
+import Button from '~/components/ui/Button.astro';
+import config from '~/config/config.json';
+import languages from '~/config/language.json';
+
+const {
+  inputs,
+  textarea,
+  disclaimer,
+  button = 'Contact us',
+  description = '',
+  compact = false,
+} = Astro.props;
+
+const nameField = inputs?.find(({ name }) => name === 'name');
+const phoneField = inputs?.find(({ name }) => name === 'phone');
+const remainingInputs = inputs?.filter(
+  ({ name }) => name && name !== 'name' && name !== 'phone'
+);
+
+const labelClass = compact
+  ? 'block text-sm md:text-base font-medium text-gray-700 mb-1'
+  : 'block text-base font-medium';
+const inputClass = compact
+  ? 'py-2 px-3 block w-full text-sm md:text-base rounded-md border border-gray-200 bg-white'
+  : 'py-3 px-4 block w-full text-base rounded-lg border border-gray-200 bg-white';
+const fieldWrapperClass = compact ? 'col-span-10 flex flex-col gap-1' : 'mb-6';
+const disclaimerLabelClass = compact
+  ? 'cursor-pointer select-none text-xs md:text-sm text-gray-600'
+  : 'cursor-pointer select-none text-base text-gray-600';
+const disclaimerCheckboxClass = compact
+  ? 'mt-0.5 h-4 w-4 cursor-pointer rounded border-gray-300'
+  : 'cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 bg-white';
+const textareaRows = textarea?.rows ?? (compact ? 3 : 4);
+const supportedLangs = languages.map((language) => language.languageCode);
+const defaultLanguage = config.settings?.default_language ?? 'en';
+const defaultLanguageInSubdir = config.settings?.default_language_in_subdir ?? false;
+---
+
+<form
+  id="contactForm"
+  data-contact-form
+  class:list={[
+    compact && 'grid grid-cols-1 gap-2 md:grid-cols-10 md:gap-3',
+  ]}
+>
+  {
+    compact
+      ? (
+        <>
+          {nameField && (
+            <div class="col-span-10 md:col-span-3 flex flex-col gap-1">
+              {nameField.label && (
+                <label for="name" class={labelClass}>
+                  {nameField.label}
+                </label>
+              )}
+              <input
+                type={nameField.type ?? 'text'}
+                name="name"
+                id="name"
+                autocomplete={nameField.autocomplete ?? 'on'}
+                placeholder={nameField.placeholder ?? ''}
+                required={nameField.required ?? true}
+                class={inputClass}
+              />
+            </div>
+          )}
+
+          {phoneField && (
+            <div class="col-span-10 md:col-span-7 flex flex-col gap-1">
+              {phoneField.label && (
+                <label for="phone" class={labelClass}>
+                  {phoneField.label}
+                </label>
+              )}
+              <input
+                type={phoneField.type ?? 'tel'}
+                name="phone"
+                id="phone"
+                autocomplete={phoneField.autocomplete ?? 'on'}
+                placeholder={phoneField.placeholder ?? ''}
+                required={phoneField.required ?? true}
+                class={inputClass}
+              />
+            </div>
+          )}
+
+          {
+            remainingInputs?.map(
+              ({ type = 'text', required, name, label = '', autocomplete = 'on', placeholder = '' }) =>
+                name && (
+                  <div class={fieldWrapperClass}>
+                    {label && (
+                      <label for={name} class={labelClass}>
+                        {label}
+                      </label>
+                    )}
+                    <input
+                      type={type}
+                      name={name}
+                      id={name}
+                      autocomplete={autocomplete}
+                      placeholder={placeholder}
+                      required={required ?? true}
+                      class={inputClass}
+                    />
+                  </div>
+                )
+            )
+          }
+        </>
+      )
+      : (
+        inputs?.map(
+          ({ type = 'text', required , name, label = '', autocomplete = 'on', placeholder = '' }) =>
+            name && (
+              <div class={fieldWrapperClass}>
+                {label && (
+                  <label for={name} class={labelClass}>
+                    {label}
+                  </label>
+                )}
+                <input
+                  type={type}
+                  name={name}
+                  id={name}
+                  autocomplete={autocomplete}
+                  placeholder={placeholder}
+                  required={required ?? true}
+                  class={inputClass}
+                />
+              </div>
+            )
+        )
+      )
+  }
+
+  {
+    textarea && (
+      <div class={fieldWrapperClass}>
+        <label for="textarea" class={labelClass}>
+          {textarea.label}
+        </label>
+        <textarea
+          id="textarea"
+          name={textarea.name ? textarea.name : 'message'}
+          rows={textareaRows}
+          placeholder={textarea.placeholder}
+          required
+          class={inputClass}
+        />
+      </div>
+    )
+  }
+
+  {
+    disclaimer && (
+      <div class={`${compact ? 'col-span-10 mt-2 md:mt-0' : 'mt-3'} flex items-start gap-2`}>
+        <div class="flex mt-0.5">
+          <input
+            id="disclaimer"
+            name="disclaimer"
+            type="checkbox"
+            required
+            class={disclaimerCheckboxClass}
+          />
+        </div>
+        <div class={compact ? 'ml-2' : 'ml-3'}>
+          <label for="disclaimer" class={disclaimerLabelClass}>
+            {disclaimer.label}
+          </label>
+        </div>
+      </div>
+    )
+  }
+
+  <div class={`${compact ? 'mt-4 col-span-10' : 'mt-10'} grid`}>
+    <Button variant="primary" type="submit">
+      {button}
+    </Button>
+  </div>
+
+  {
+    description && (
+      <div class={`${compact ? 'mt-2 col-span-10' : 'mt-3'} text-center`}>
+        <p class={compact ? 'text-sm md:text-base text-gray-600' : 'text-base text-gray-600'}>{description}</p>
+      </div>
+    )
+  }
+</form>
+
+<script is:inline define:vars={{ supportedLangs, defaultLanguage, defaultLanguageInSubdir }}>
+  const forms = document.querySelectorAll('form[data-contact-form]');
+  const confirmationSlug = 'confirmation';
+
+  const buildConfirmationPath = () => {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const maybeLang = pathParts[0];
+
+    if (maybeLang && supportedLangs.includes(maybeLang)) {
+      return `/${maybeLang}/${confirmationSlug}`;
+    }
+
+    if (defaultLanguageInSubdir) {
+      return `/${defaultLanguage}/${confirmationSlug}`;
+    }
+
+    return `/${confirmationSlug}`;
+  };
+
+  const resolveSourcePage = () => window.location.href;
+
+  forms.forEach((form) => {
+    if (form.dataset.contactFormBound === 'true') {
+      return;
+    }
+
+    form.dataset.contactFormBound = 'true';
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (!submitButton) return;
+      submitButton.disabled = true;
+
+      const formData = new FormData(form);
+      const formObject = Object.fromEntries(formData.entries());
+      formObject.sourcePage = resolveSourcePage();
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formObject),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          window.location.assign(buildConfirmationPath());
+          return;
+        }
+
+        alert('Error sending message: ' + result.error);
+      } catch (error) {
+        alert('An error occurred while sending your message.');
+        console.error(error);
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+   });
+</script>

@@ -1,0 +1,13 @@
+---
+import config from '~/config/config.json';
+import HomePage from './[...lang]/index.astro';
+
+const shouldRedirect = config.settings.default_language_in_subdir;
+const redirectTarget = `/${config.settings.default_language}`;
+
+if (shouldRedirect) {
+  return Astro.redirect(redirectTarget);
+}
+---
+
+<HomePage lang="" />

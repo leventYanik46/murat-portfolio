@@ -1,0 +1,102 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 4321
+  port = 8888
+  autoLaunch = false
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[build.processing.html]
+  pretty_urls = false
+
+# ─────────────────────────────────────────────────────────────
+# Redirect outdated CLP routes → current site routes
+# ─────────────────────────────────────────────────────────────
+
+# Old “About” pages → /about
+[[redirects]]
+  from = "/hakkimizda/"
+  to   = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/about-us/"
+  to   = "/about"
+  status = 301
+
+# Old “Contact” pages → /contact
+[[redirects]]
+  from = "/contact-us/"
+  to   = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/bize-ulasin/"
+  to   = "/contact"
+  status = 301
+
+# Practice-area slugs that changed
+[[redirects]]
+  from = "/practise_area/corporate-law/"
+  to   = "/practice-area/business-corporate-law"
+  status = 301
+
+[[redirects]]
+  from = "/practise_area/business-immigration-law/"
+  to   = "/practice-area/immigration-law"
+  status = 301
+
+# Locations → /locations
+[[redirects]]
+  from = "/global-presence/"
+  to   = "/locations"
+  status = 301
+
+[[redirects]]
+  from = "/lokasyonlarimiz/"
+  to   = "/locations"
+  status = 301
+
+# Scheduling → /schedule
+[[redirects]]
+  from = "/consultation-appointment/"
+  to   = "/schedule"
+  status = 301
+
+[[redirects]]
+  from = "/ucretsiz-danismanlik-randevusu/"
+  to   = "/schedule"
+  status = 301
+
+[[redirects]]
+  from = "/Schedule"
+  to   = "/schedule"
+  status = 301
+
+# Sitemap canonicalization
+[[redirects]]
+  from = "/sitemap.xml"
+  to   = "/sitemap-index.xml"
+  status = 301
+
+# Hero image pinned through Netlify Image CDN
+[[redirects]]
+  from = "/hero-image"
+  to = "/.netlify/images?url=/assets/images/high-resolution-photo-of-us-capitol-l.png&w=2400&fit=cover&auto=format&q=85"
+  status = 200
+  force = true
+
+# Keep hero image variants cached and untransformed
+[[headers]]
+  for = "/_astro/high-resolution-photo-of-us-capitol-l*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable, no-transform"
+    Vary = "Accept"

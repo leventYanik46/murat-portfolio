@@ -1,0 +1,171 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import Button from '~/components/ui/Button.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+
+const pathSegments = new URL(Astro.url).pathname.split('/').filter(Boolean);
+const lang = pathSegments[0] && pathSegments[0].length === 2 ? pathSegments[0] : '';
+const logoHref = lang ? `/${lang}` : '/'; 
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isFullWidth?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  isFullWidth = false,
+  position = 'center',
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+---
+
+<header
+  class:list={[
+    { sticky: isSticky, relative: !isSticky },
+    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+  ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
+>
+   <div class="absolute inset-0"></div>
+  <div
+    class:list={[
+      'relative text-default py-3 px-2 mx-auto w-full border-t border-gray-200',
+      {
+        'min-[1230px]:flex min-[1230px]:justify-between': position !== 'center',
+      },
+      {
+        'min-[1230px]:grid min-[1230px]:grid-cols-3 min-[1230px]:items-center': position === 'center',
+      },
+      {
+        'max-w-7xl': !isFullWidth,
+      },
+    ]}
+  >
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+      <a class="flex items-center ml-4 mr-1 md:ml-0 md:mr-0" href={logoHref}>
+        <Logo />
+      </a>
+      <div class="flex items-center gap-4 min-[1230px]:hidden">
+        {/* Toggle menu is the only control on mobile in this variant */}
+        <ToggleMenu />
+      </div>
+    </div>
+    <nav
+      class="items-center mt-10 min-[1230px]:mt-0 w-full min-[1230px]:w-auto hidden min-[1230px]:flex min-[1230px]:ml-24 min-[1230px]:-mr-4 -text-default overflow-y-auto overflow-x-hidden min-[1230px]:overflow-visible min-[1230px]:justify-self-center"
+      aria-label="Main navigation"
+    >
+      <ul
+        class="flex flex-col min-[1230px]:flex-row min-[1230px]:self-center w-full min-[1230px]:w-auto max-[1080px]:text-[0.85rem] min-[1080px]:text-[1rem] tracking-[0.01rem] font-medium min-[1230px]:justify-center"
+      >
+        {
+          links.map(({ text, href, links }) => (
+            <li class={links?.length ? 'dropdown group relative' : ''}>
+              {links?.length ? (
+                <>
+                  <button type="button" class="hover:text-link px-4 font-bold py-3 flex items-center whitespace-nowrap">
+                    {text}{' '}
+                    <Icon
+                      name="tabler:chevron-down"
+                      class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden min-[1230px]:inline"
+                    />
+                  </button>
+                  <ul
+                    class="dropdown-menu hidden group-focus-within:block pl-4 min-[1230px]:pl-0 font-medium min-[1230px]:bg-white/90 min-[1230px]:min-w-[320px] min-[1230px]:w-max drop-shadow-xl min-[1230px]:backdrop-blur-md rounded min-[1230px]:absolute min-[1230px]:top-full min-[1230px]:group-hover:block min-[1230px]:group-focus-within:block"
+                  >
+                    {links.map(({ text: text2, href: href2 }) => (
+                      <li>
+                        <a
+                          class:list={[
+                            'first:rounded-t last:rounded-b min-[1230px]:hover:bg-gray-100 hover:text-link py-2 px-5 block whitespace-no-wrap',
+                            { 'aw-link-active': href2 === currentPath },
+                          ]}
+                          href={href2}
+                        >
+                          {text2}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  class:list={[
+                    'hover:text-link px-4 py-3 font-bold flex items-center whitespace-nowrap',
+                    { 'aw-link-active': href === currentPath },
+                  ]}
+                  href={href}
+                >
+                  {text}
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div
+      class:list={[
+        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
+        'flex items-center gap-4 justify-end w-full min-[1230px]:self-center min-[1230px]:mb-0 min-[1230px]:justify-self-end min-[1230px]:w-auto',
+      ]}
+    >
+      <form class="block">
+        <label class="sr-only" for="language-switcher">
+          Switch language
+        </label>
+         <select
+           id="language-switcher"
+           class="border rounded px-2 py-1 text-sm bg-white"
+           onchange="if(this.value) window.location.href=this.value"
+           aria-label="Switch language"
+           value={lang ? `/${lang}` : '/'}
+         >
+           <option disabled selected>Language</option>
+            <option value="/tr">🇹🇷 Tr</option>
+           <option value="/">🇺🇸 En</option>
+           <option value="/es">🇪🇸 Es</option>
+           <option value="/pt">🇵🇹 Pt</option>
+           <option value="/fr">🇫🇷 Fr</option> 
+         </select>
+      </form>
+      {
+        actions?.length ? (
+          <span class="max-[1240px]:hidden min-[1230px]:flex items-center">
+            {actions.map((btnProps) => (
+              <Button {...btnProps} class="py-2.5 px-5.5 min-[1230px]:px-6 font-semibold shadow-none text-sm w-auto" />
+            ))}
+          </span>
+        ) : (
+          ''
+        )
+      }
+    </div>
+    <div class="hidden" aria-hidden="true"></div>
+  </div>
+</header>
+<div class="border-t-2 border-gray-100"></div>
