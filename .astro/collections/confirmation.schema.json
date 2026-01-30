@@ -1,0 +1,165 @@
+{
+  "$ref": "#/definitions/confirmation",
+  "definitions": {
+    "confirmation": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "ignoreTitleTemplate": {
+              "type": "boolean"
+            },
+            "canonical": {
+              "type": "string",
+              "format": "uri"
+            },
+            "robots": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "boolean"
+                },
+                "follow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "description": {
+              "type": "string"
+            },
+            "openGraph": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "siteName": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "locale": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "twitter": {
+              "type": "object",
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string"
+                },
+                "cardType": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string",
+          "enum": [
+            "en",
+            "tr",
+            "es",
+            "pt",
+            "fr"
+          ]
+        },
+        "info": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "see_more_text": {
+          "type": "string"
+        },
+        "about_text": {
+          "type": "string"
+        },
+        "about_button_text": {
+          "type": "string"
+        },
+        "about_url": {
+          "type": "string"
+        },
+        "home_text": {
+          "type": "string"
+        },
+        "home_button_text": {
+          "type": "string"
+        },
+        "home_url": {
+          "type": "string"
+        },
+        "team_text": {
+          "type": "string"
+        },
+        "team_button_text": {
+          "type": "string"
+        },
+        "team_url": {
+          "type": "string"
+        },
+        "social_text": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "lang"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

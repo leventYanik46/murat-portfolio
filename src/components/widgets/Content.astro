@@ -20,6 +20,7 @@ const {
   id,
   classes = {},
   bg = await Astro.slots.render('bg'),
+  actions,
 } = Astro.props;
 ---
 
@@ -55,6 +56,28 @@ const {
                   layout="responsive"
                   {...image}
                 />
+              )}
+              {actions && (
+                <div class="absolute inset-x-0 bottom-8 flex flex-wrap justify-center gap-3 px-4">
+                  {Array.isArray(actions) ? (
+                    actions.map((action) => (
+                      <Button
+                        {...(action || {})}
+                        variant={
+                          action?.variant === 'primary' ||
+                          action?.variant === 'secondary' ||
+                          action?.variant === 'tertiary' ||
+                          action?.variant === 'link'
+                            ? action.variant
+                            : 'secondary'
+                        }
+                        class="shadow-lg"
+                      />
+                    ))
+                  ) : (
+                    <Fragment set:html={actions} />
+                  )}
+                </div>
               )}
             </div>
           )

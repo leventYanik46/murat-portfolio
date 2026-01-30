@@ -28,7 +28,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  site: 'https://capitollawpartners.com', // Replace with your website URL
+  site: 'https://tobereplaced.com', // Replace with your website URL
   adapter: netlify(),
   output: 'static',
   integrations: [
@@ -84,7 +84,7 @@ export default defineConfig({
   ],
 
   image: {
-    domains: ['capitollawpartners.com'],
+    domains: ['tobereplaced.com'],
   },
 
   markdown: {

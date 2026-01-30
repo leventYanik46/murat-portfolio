@@ -1,0 +1,245 @@
+{
+  "$ref": "#/definitions/about",
+  "definitions": {
+    "about": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "ignoreTitleTemplate": {
+              "type": "boolean"
+            },
+            "canonical": {
+              "type": "string",
+              "format": "uri"
+            },
+            "robots": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "boolean"
+                },
+                "follow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "description": {
+              "type": "string"
+            },
+            "openGraph": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "siteName": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "locale": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "twitter": {
+              "type": "object",
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string"
+                },
+                "cardType": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hero": {
+          "type": "object",
+          "properties": {
+            "tagline": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "subtitleHtml": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "heroImage": {
+          "type": "object",
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            },
+            "href": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "class": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "src"
+          ],
+          "additionalProperties": false
+        },
+        "practiceAreas": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "icon": {
+                    "type": "string"
+                  },
+                  "link": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "title",
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "values": {
+          "$ref": "#/definitions/about/properties/practiceAreas"
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "link": {
+                    "type": "string"
+                  },
+                  "icon": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hero"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,64 @@
+{
+  "$ref": "#/definitions/announcement",
+  "definitions": {
+    "announcement": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phone_display": {
+          "type": "string"
+        },
+        "contact_url": {
+          "type": "string"
+        },
+        "contact_text": {
+          "type": "string"
+        },
+        "intro_text": {
+          "type": "string"
+        },
+        "call_text": {
+          "type": "string"
+        },
+        "or_text": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "linkedin": {
+          "type": "string"
+        },
+        "instagram_button_text": {
+          "type": "string"
+        },
+        "facebook_button_text": {
+          "type": "string"
+        },
+        "linkedin_button_text": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "lang"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

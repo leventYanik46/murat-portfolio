@@ -135,11 +135,7 @@ const callToActionSchema = z.object({
   backgroundClass: z.string().optional(),
 });
 
-const locationSchema = z.object({
-  title: z.string(),
-  description: z.string().optional(),
-  image: imageSchema,
-});
+
 
 const contactItemSchema = z.object({
   title: z.string(),
@@ -258,9 +254,12 @@ const homepageCollection = defineCollection({
   loader: glob({ pattern: '**/-index.{md,mdx}', base: 'src/content/homepage' }),
   schema: z.object({
     metadata: metadataDefinition(),
-    hero: heroWithHighlightSchema,
-    practiceAreas: featureSectionSchema,
+    hero: heroWithHighlightSchema.optional(),
+    practiceAreas: featureSectionSchema.optional(),
     spotlights: z.array(spotlightSchema).optional(),
+    profile: teamMemberProfileSchema.optional(),
+    profileSteps: z.array(teamMemberStepSectionSchema).optional(),
+    profileCta: callToActionSchema.optional(),
     testimonials: testimonialsSchema.optional(),
     steps: stepsSectionSchema.optional(),
     blog: blogPromoSchema.optional(),
@@ -278,7 +277,6 @@ const aboutCollection = defineCollection({
     heroImage: imageSchema.optional(),
     practiceAreas: featureSectionSchema.optional(),
     values: featureSectionSchema.optional(),
-    locations: z.array(locationSchema).optional(),
     contact: contactSectionSchema.optional(),
   }),
 });
@@ -294,38 +292,9 @@ const contactCollection = defineCollection({
     features: featureSectionSchema.extend({
       title: z.string(),
     }),
-    locations: z
-      .union([
-        z.array(locationSchema),
-        z.object({
-          items: z.array(locationSchema),
-        }),
-      ])
-      .optional(),
   }),
 });
 
-const locationsCollection = defineCollection({
-  loader: glob({ pattern: '**/-index.{md,mdx}', base: 'src/content/locations' }),
-  schema: z.object({
-    metadata: metadataDefinition(),
-    hero: heroBasicSchema.extend({
-      title: z.string(),
-    }),
-    locations: z.array(locationSchema),
-    callToAction: z
-      .object({
-        title: z.string(),
-        subtitle: z.string().optional(),
-        buttonText: z.string(),
-        href: z.string().optional(),
-      })
-      .optional(),
-    features: featureSectionSchema.extend({
-      title: z.string(),
-    }),
-  }),
-});
 
 const scheduleCollection = defineCollection({
   loader: glob({ pattern: '**/-index.{md,mdx}', base: 'src/content/schedule' }),
@@ -334,22 +303,6 @@ const scheduleCollection = defineCollection({
     attorneys: z.array(teamCardSchema.extend({
       actions: z.array(actionSchema),
     })),
-  }),
-});
-
-const evaluationsCollection = defineCollection({
-  loader: glob({ pattern: '**/-index.{md,mdx}', base: 'src/content/evaluations' }),
-  schema: z.object({
-    metadata: metadataDefinition(),
-    features: featureSectionSchema,
-  }),
-});
-
-const teamCollection = defineCollection({
-  loader: glob({ pattern: '**/-index.{md,mdx}', base: 'src/content/team' }),
-  schema: z.object({
-    metadata: metadataDefinition(),
-    sections: z.array(teamSectionSchema),
   }),
 });
 
@@ -466,10 +419,7 @@ export const collections = {
   about: aboutCollection,
   contact: contactCollection,
   confirmation: confirmationCollection,
-  locations: locationsCollection,
   schedule: scheduleCollection,
-  evaluations: evaluationsCollection,
-  team: teamCollection,
   teamMember: teamMemberCollection,
   practiceArea: practiceAreaCollection,
   notFound: notFoundCollection,

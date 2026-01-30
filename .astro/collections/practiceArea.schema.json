@@ -1,0 +1,251 @@
+{
+  "$ref": "#/definitions/practiceArea",
+  "definitions": {
+    "practiceArea": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "ignoreTitleTemplate": {
+              "type": "boolean"
+            },
+            "canonical": {
+              "type": "string",
+              "format": "uri"
+            },
+            "robots": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "boolean"
+                },
+                "follow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "description": {
+              "type": "string"
+            },
+            "openGraph": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "siteName": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "locale": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "twitter": {
+              "type": "object",
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string"
+                },
+                "cardType": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hero": {
+          "type": "object",
+          "properties": {
+            "tagline": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "subtitleHtml": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "image": {
+              "type": "object",
+              "properties": {
+                "src": {
+                  "type": "string"
+                },
+                "alt": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "loading": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "src"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "post": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "image": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/practiceArea/properties/hero/properties/image"
+                }
+              ]
+            },
+            "content": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "contactForm": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "infoTitle": {
+              "type": "string"
+            },
+            "infoDescription": {
+              "type": "string"
+            },
+            "googleReview": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "rating": {
+                  "type": [
+                    "number",
+                    "string"
+                  ]
+                },
+                "count": {
+                  "type": [
+                    "number",
+                    "string"
+                  ]
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "inputs": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "phone": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "textarea": {
+              "type": "string"
+            },
+            "disclaimer": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "post"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

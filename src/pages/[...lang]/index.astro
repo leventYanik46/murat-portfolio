@@ -1,16 +1,16 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
 import Note from '~/components/widgets/Note.astro';
-import Features from '~/components/widgets/Features.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import type { CallToAction as CTA } from '~/types';
 import type { ContentEntryMap } from "astro:content";
 import { getListPage } from "~/utils/lib/contentParser.astro";
 import { supportedLang } from "~/utils/lib/languageParser";
+/* getPermalink unused */
 
 export function getStaticPaths() {
   const paths = supportedLang.map((lang) => ({
@@ -28,80 +28,83 @@ if (!homepage || homepage.length === 0 || !homepage[0].data) {
   throw new Error("Homepage content not found for language: " + lang);
 }
 
-const { metadata, hero, practiceAreas, spotlights, testimonials, steps, blog, cta } = homepage[0].data;
+const {
+  metadata,
+  profile,
+  profileSteps,
+  profileCta,
+  testimonials,
+  blog,
+  cta,
+} = homepage[0].data;
+
+// helpers removed; using casts for now to satisfy types
 
 ---
+
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
-  <Hero
-    image={hero.image}
-    actions={hero.actions}
-  >
-    <Fragment slot="title">
-      <span class="text-blue-700 highlight">{hero.title.highlight}</span>
-      <span class="hidden xl:inline">{hero.title.rest}</span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      <Fragment set:html={hero.subtitleHtml} />
-    </Fragment>
-  </Hero>
-
-  <!-- Note Widget ******************* -->
+   
+  {profile && (
+    <Content
+      id={profile.id}
+      columns={profile.columns}
+      image={profile.image}
+      classes={{
+        container: 'pt-4 md:pt-6 lg:pt-8'
+      }}
+      actions={profile.actions as unknown as CTA[]}
+      
+    >
+      <Fragment slot="content" >
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight sm:text-6xl mb-4">{profile.name}</h1>
+        <h2 class="text-xl md:text-2xl text-gray-600 mb-6">{profile.role}</h2>
+        <div class="prose prose-lg max-w-none mb-8">
+          {profile.bio?.map((paragraph) => (
+            <Fragment>
+              <p>{paragraph}</p>
+              <br />
+            </Fragment>
+          ))}
+        </div>
+        
+      </Fragment>
+    </Content>
+  )}
 
   <Note />
 
-  <!-- Features Widget *************** -->
-
-  <Features
-    id={practiceAreas.id}
-    tagline={practiceAreas.tagline}
-    title={practiceAreas.title}
-    subtitle={practiceAreas.subtitle}
-    items={practiceAreas.items}
-  />
-
-  <!-- Content Widget **************** -->
-  {spotlights.map((spotlight) => (
-    <Content {...spotlight.props} items={spotlight.items} image={spotlight.image}>
-      <Fragment slot="content">
-        <Fragment set:html={spotlight.contentHtml} />
-      </Fragment>
-
-      {spotlight.backgroundClass && (
-        <Fragment slot="bg">
-          <div class={spotlight.backgroundClass}></div>
-        </Fragment>
-      )}
-    </Content>
+  {(profileSteps ?? []).map((section) => (
+    <Steps id={section.id} title={section.title} items={section.items} classes={section.classes} />
   ))}
 
+  
+
+  <!-- Features Widget *************** -->
+
+ 
+
   <!-- Testimonials Widget ********** -->
-  <Testimonials
-    title={testimonials.title}
-    subtitle={testimonials.subtitle}
-    testimonials={testimonials.items}
-    callToAction={testimonials.callToAction}
-  />
+  {testimonials && (
+    <Testimonials
+      title={testimonials.title}
+      subtitle={testimonials.subtitle}
+      testimonials={testimonials.items}
+  callToAction={testimonials.callToAction as unknown as CTA}
+    />
+  )}
 
   <!-- Steps Widget ****************** -->
-
-  <Steps title={steps.title} items={steps.items} image={steps.image} />
-  <!-- HighlightedPosts Widget ******* -->
-
-  <BlogLatestPosts title={blog.title} information={blog.information} lang={lang || undefined} />
+  {profileCta && (
+    <CallToAction
+      title={profileCta.title}
+      subtitle={profileCta.subtitle}
+      tagline={profileCta.tagline}
+      actions={profileCta.actions as unknown as CTA[]}
+    />
+  )}
+  {blog && <BlogLatestPosts title={blog.title} information={blog.information} lang={lang || undefined} />}
 
   
   <!-- CallToAction Widget *********** -->
 
-  <CallToAction actions={cta.actions}>
-    <Fragment slot="title">
-      <Fragment set:html={cta.titleHtml} />
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      <Fragment set:html={cta.subtitleHtml} />
-    </Fragment>
-  </CallToAction>
 </Layout>

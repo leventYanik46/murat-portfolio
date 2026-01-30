@@ -1,0 +1,512 @@
+{
+  "$ref": "#/definitions/homepage",
+  "definitions": {
+    "homepage": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "ignoreTitleTemplate": {
+              "type": "boolean"
+            },
+            "canonical": {
+              "type": "string",
+              "format": "uri"
+            },
+            "robots": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "boolean"
+                },
+                "follow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "description": {
+              "type": "string"
+            },
+            "openGraph": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "siteName": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "locale": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "twitter": {
+              "type": "object",
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string"
+                },
+                "cardType": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "hero": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "object",
+              "properties": {
+                "highlight": {
+                  "type": "string"
+                },
+                "rest": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "highlight"
+              ],
+              "additionalProperties": false
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "subtitleHtml": {
+              "type": "string"
+            },
+            "image": {
+              "type": "object",
+              "properties": {
+                "src": {
+                  "type": "string"
+                },
+                "alt": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "loading": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "src"
+              ],
+              "additionalProperties": false
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "variant": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "rel": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "practiceAreas": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "icon": {
+                    "type": "string"
+                  },
+                  "link": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "title",
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "spotlights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "props": {
+                "type": "object",
+                "properties": {
+                  "isReversed": {
+                    "type": "boolean"
+                  },
+                  "isAfterContent": {
+                    "type": "boolean"
+                  },
+                  "tagline": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "description"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "image": {
+                "$ref": "#/definitions/homepage/properties/hero/properties/image"
+              },
+              "contentHtml": {
+                "type": "string"
+              },
+              "backgroundClass": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "items"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "profile": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "columns": {
+              "type": "number"
+            },
+            "image": {
+              "$ref": "#/definitions/homepage/properties/hero/properties/image"
+            },
+            "name": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "bio": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/homepage/properties/hero/properties/actions/items"
+              }
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "profileSteps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "classes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "title",
+              "items"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "profileCta": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "titleHtml": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "subtitleHtml": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/homepage/properties/hero/properties/actions/items"
+              }
+            },
+            "backgroundClass": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "testimonials": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "callToAction": {
+              "$ref": "#/definitions/homepage/properties/hero/properties/actions/items"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "testimonial": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "job": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "$ref": "#/definitions/homepage/properties/hero/properties/image"
+                  }
+                },
+                "required": [
+                  "testimonial"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "steps": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/homepage/properties/profileSteps/items/properties/items/items"
+              }
+            },
+            "classes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "$ref": "#/definitions/homepage/properties/hero/properties/image"
+            }
+          },
+          "required": [
+            "title",
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "blog": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "information": {
+              "type": "string"
+            },
+            "bgClass": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "cta": {
+          "$ref": "#/definitions/homepage/properties/profileCta"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

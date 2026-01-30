@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import type { ContentEntryMap } from "astro:content";
 import { getListPage } from "~/utils/lib/contentParser.astro";
 import { supportedLang } from "~/utils/lib/languageParser";
+export type Props = object;
 export function getStaticPaths() {
   const paths = supportedLang.map((lang) => ({
     params: { lang: lang || undefined },
@@ -11,6 +12,8 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+const _props: Props = Astro.props;
+void _props;
 
 const notePage = await getListPage("note", lang as keyof ContentEntryMap);
 if (!notePage || notePage.length === 0 || !notePage[0].data) {

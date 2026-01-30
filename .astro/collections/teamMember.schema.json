@@ -1,0 +1,335 @@
+{
+  "$ref": "#/definitions/teamMember",
+  "definitions": {
+    "teamMember": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "ignoreTitleTemplate": {
+              "type": "boolean"
+            },
+            "canonical": {
+              "type": "string",
+              "format": "uri"
+            },
+            "robots": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "boolean"
+                },
+                "follow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "description": {
+              "type": "string"
+            },
+            "openGraph": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "siteName": {
+                  "type": "string"
+                },
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "url"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "locale": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "twitter": {
+              "type": "object",
+              "properties": {
+                "handle": {
+                  "type": "string"
+                },
+                "site": {
+                  "type": "string"
+                },
+                "cardType": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "profile": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "columns": {
+              "type": "number"
+            },
+            "image": {
+              "type": "object",
+              "properties": {
+                "src": {
+                  "type": "string"
+                },
+                "alt": {
+                  "type": "string"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "loading": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "src"
+              ],
+              "additionalProperties": false
+            },
+            "name": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "bio": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "variant": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "href": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "rel": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "classes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "title",
+              "items"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "testimonials": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "callToAction": {
+              "$ref": "#/definitions/teamMember/properties/profile/properties/actions/items"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "testimonial": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "job": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "$ref": "#/definitions/teamMember/properties/profile/properties/image"
+                  }
+                },
+                "required": [
+                  "testimonial"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        "cta": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "titleHtml": {
+              "type": "string"
+            },
+            "subtitle": {
+              "type": "string"
+            },
+            "subtitleHtml": {
+              "type": "string"
+            },
+            "tagline": {
+              "type": "string"
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/teamMember/properties/profile/properties/actions/items"
+              }
+            },
+            "backgroundClass": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "blog": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "information": {
+              "type": "string"
+            },
+            "bgClass": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

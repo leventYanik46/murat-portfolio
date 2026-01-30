@@ -286,6 +286,7 @@ export interface Content extends Omit<Headline, 'classes'>, Widget {
   isReversed?: boolean;
   isAfterContent?: boolean;
   callToAction?: CallToAction;
+  actions?: string | CallToAction[];
 }
 
 export interface GoogleReview {
